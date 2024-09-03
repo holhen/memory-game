@@ -1,18 +1,27 @@
 .game {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 500px;
   height: 400px;
   border: 1px solid black;
 
+  &.in-progress {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-content: stretch;
+    align-items: stretch;
+  }
+
   &.won {
-    justify-content: center;
-    align-content: center;
-    text-align: center;
     background-color: green;
 
-    .text {
-      grid-column: span 5;
+    .winning-message {
+      text-align: center;
     }
+  }
+
+  h1 {
+    text-align: center;
   }
 }

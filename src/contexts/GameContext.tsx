@@ -5,7 +5,7 @@ import {
   PropsWithChildren,
   useReducer,
 } from "react";
-import { Action, gameReducer, initialStore, State } from "../store/store";
+import { Action, gameReducer, initialState, State } from "../store/store";
 
 interface IGameContext {
   state: State;
@@ -13,14 +13,14 @@ interface IGameContext {
 }
 
 const defaultGameContext: IGameContext = {
-  state: initialStore,
+  state: initialState,
   dispatch: () => {},
 };
 
 export const GameContext = createContext<IGameContext>(defaultGameContext);
 
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(gameReducer, initialStore);
+  const [state, dispatch] = useReducer(gameReducer, initialState);
   const store = {
     state,
     dispatch,
