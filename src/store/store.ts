@@ -1,11 +1,8 @@
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { startingBoard } from "../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
 
-export enum Actions {
-  FLIP = "FLIP",
-  START = "START",
-}
-
-export interface State {
+interface State {
   board: number[];
   flipped: number[];
   correct: number[];
@@ -13,12 +10,7 @@ export interface State {
   isWon: boolean;
 }
 
-export interface Action {
-  type: Actions;
-  payload?: number;
-}
-
-export const initialState: State = {
+const initialState: State = {
   board: startingBoard,
   flipped: [],
   correct: [],
@@ -26,7 +18,7 @@ export const initialState: State = {
   isWon: false,
 };
 
-const startGame = () => {
+const startGame = (): State => {
   return {
     ...initialState,
     isInProgress: true,
@@ -53,21 +45,33 @@ const flipTile = (state: State, tileIndex: number): State => {
   };
 };
 
-export const gameReducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case Actions.FLIP: {
+const gameSlice = createSlice({
+  name: "game",
+  initialState,
+  reducers: {
+    flip: (state: State, action: PayloadAction<number>) => {
       const nextState = flipTile(state, action.payload!);
       if (nextState.correct.length === state.board.length) {
         nextState.isWon = true;
         nextState.isInProgress = false;
       }
       return nextState;
-    }
-    case Actions.START: {
+    },
+    start: () => {
       return startGame();
-    }
-    default: {
-      return state;
-    }
-  }
-};
+    },
+  },
+});
+
+export const { flip, start } = gameSlice.actions;
+
+export const store = configureStore({
+  reducer: {
+    game: gameSlice.reducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();

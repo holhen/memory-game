@@ -1,6 +1,5 @@
-import { FC, useContext } from "react";
-import { GameContext } from "../../contexts/GameContext";
-import { Actions } from "../../store/store";
+import { FC } from "react";
+import { flip, useAppDispatch, useAppSelector } from "../../store/store";
 import "./Square.scss";
 
 interface SquareProps {
@@ -9,9 +8,10 @@ interface SquareProps {
 }
 
 const Square: FC<SquareProps> = ({ value, index }) => {
-  const context = useContext(GameContext);
-  const { state, dispatch } = context;
-  const { flipped, correct } = state;
+  const flipped = useAppSelector((state) => state.game.flipped);
+  const correct = useAppSelector((state) => state.game.correct);
+  const dispatch = useAppDispatch();
+
   const isFlipped = flipped.includes(index);
   const isCorrect = correct.includes(index);
 
@@ -19,10 +19,7 @@ const Square: FC<SquareProps> = ({ value, index }) => {
     if (isCorrect) {
       return;
     }
-    dispatch({
-      type: Actions.FLIP,
-      payload: index,
-    });
+    dispatch(flip(index));
   };
 
   return (

@@ -11,10 +11,6 @@
     grid-template-columns: repeat(5, 1fr);
     justify-content: stretch;
     align-items: stretch;
-
-    h1 {
-      text-align: center;
-    }
   }
 
   &.won {
@@ -23,5 +19,9 @@
     .winning-message {
       text-align: center;
     }
+  }
+
+  h1 {
+    text-align: center;
   }
 }
