@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { startingBoard } from "../../utils/utils";
 import Square from "../Square/Square";
+import { useAppSelector } from "../../store/store";
 
 const Board: FC = () => {
-  const board = startingBoard;
+  const board = useAppSelector((state) => state.game.board);
   return (
     <>
       {board.map((number, index) => (

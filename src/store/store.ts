@@ -10,39 +10,52 @@ interface State {
   isWon: boolean;
 }
 
-const initialState: State = {
-  board: startingBoard,
-  flipped: [],
-  correct: [],
-  isInProgress: false,
-  isWon: false,
-};
+const savedState = localStorage.getItem("state");
+
+const initialState: State = savedState
+  ? JSON.parse(savedState)
+  : {
+      board: startingBoard,
+      flipped: [],
+      correct: [],
+      isInProgress: false,
+      isWon: false,
+    };
 
 const startGame = (): State => {
-  return {
+  const newState = {
     ...initialState,
     isInProgress: true,
   };
+  localStorage.setItem("state", JSON.stringify(newState));
+  return newState;
 };
 
 const flipTile = (state: State, tileIndex: number): State => {
+  let newState;
   if (state.flipped.length === 1) {
     if (state.board[state.flipped[0]] === state.board[tileIndex]) {
-      return {
+      newState = {
         ...state,
         flipped: [],
         correct: [...state.correct, ...state.flipped, tileIndex],
       };
+      localStorage.setItem("state", JSON.stringify(newState));
+      return newState;
     }
-    return {
+    newState = {
       ...state,
       flipped: [...state.flipped, tileIndex],
     };
+    localStorage.setItem("state", JSON.stringify(newState));
+    return newState;
   }
-  return {
+  newState = {
     ...state,
     flipped: [tileIndex],
   };
+  localStorage.setItem("state", JSON.stringify(newState));
+  return newState;
 };
 
 const gameSlice = createSlice({
@@ -54,6 +67,7 @@ const gameSlice = createSlice({
       if (nextState.correct.length === state.board.length) {
         nextState.isWon = true;
         nextState.isInProgress = false;
+        localStorage.removeItem("state");
       }
       return nextState;
     },
