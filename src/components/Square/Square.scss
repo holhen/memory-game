@@ -5,4 +5,14 @@
   justify-content: center;
   align-items: center;
   color: rgba(0, 0, 0, 0);
+
+  &.flipped {
+    color: white;
+    background-color: black;
+  }
+
+  &.correct {
+    color: black;
+    background-color: green;
+  }
 }

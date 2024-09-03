@@ -1,0 +1,18 @@
+.game {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 500px;
+  height: 400px;
+  border: 1px solid black;
+
+  &.won {
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    background-color: green;
+
+    .text {
+      grid-column: span 5;
+    }
+  }
+}

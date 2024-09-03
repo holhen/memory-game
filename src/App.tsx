@@ -1,8 +1,13 @@
 import { FC } from "react";
-import Board from "./Board/Board";
+import Game from "./components/Game/Game";
+import { GameContextProvider } from "./contexts/GameContext";
 
 const App: FC = () => {
-  return <Board />;
+  return (
+    <GameContextProvider>
+      <Game />
+    </GameContextProvider>
+  );
 };
 
 export default App;
