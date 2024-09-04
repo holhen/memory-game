@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   width: 500px;
-  height: 400px;
+  min-height: 400px;
   border: 1px solid black;
 
   &.in-progress {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-content: stretch;
-    align-items: stretch;
+    grid-template-columns: repeat(5, auto);
+    justify-content: start;
+    align-content: start;
   }
 
   &.won {

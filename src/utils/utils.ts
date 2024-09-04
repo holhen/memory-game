@@ -1,6 +1,13 @@
-const numbers = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
+export const getStartingBoard = (numberOfTiles: number) => {
+  const numbers: number[] = [];
+  for (let i = 1; i <= numberOfTiles / 2; i++) {
+    for (let j = 1; j <= 2; j++) {
+      numbers.push(i);
+    }
+  }
 
-export const startingBoard = numbers
-  .map((number) => ({ value: number, sort: Math.random() }))
-  .sort((a, b) => a.sort - b.sort)
-  .map(({ value }) => value);
+  return numbers
+    .map((number) => ({ value: number, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+};

@@ -6,6 +6,7 @@ const StartGame = () => {
       <h1>Game Instructions</h1>
       <ol>
         <li>Click on Play button</li>
+        <li>Set the number of tiles you want to see. Default is 20. There can only be even number of tiles.</li>
         <li>
           Click on a tile. The number that the tile contains will be reveiled.
           Try to remember its position.

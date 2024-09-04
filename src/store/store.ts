@@ -1,5 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { startingBoard } from "../utils/utils";
+import { getStartingBoard } from "../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 
 interface State {
@@ -8,18 +8,21 @@ interface State {
   correct: number[];
   isInProgress: boolean;
   isWon: boolean;
+  numberOfTiles: number;
 }
 
 const savedState = localStorage.getItem("state");
+const defaultNumberOfTiles = 20;
 
 const initialState: State = savedState
   ? JSON.parse(savedState)
   : {
-      board: startingBoard,
+      board: getStartingBoard(defaultNumberOfTiles),
       flipped: [],
       correct: [],
       isInProgress: false,
       isWon: false,
+      numberOfTiles: defaultNumberOfTiles,
     };
 
 const startGame = (): State => {
@@ -34,7 +37,10 @@ const startGame = (): State => {
 const flipTile = (state: State, tileIndex: number): State => {
   let newState;
   if (state.flipped.length === 1) {
-    if (state.board[state.flipped[0]] === state.board[tileIndex]) {
+    if (
+      state.board[state.flipped[0]] === state.board[tileIndex] &&
+      state.flipped[0] !== tileIndex
+    ) {
       newState = {
         ...state,
         flipped: [],
@@ -74,10 +80,19 @@ const gameSlice = createSlice({
     start: () => {
       return startGame();
     },
+    setNumberOfTiles: (state: State, action: PayloadAction<number>) => {
+      const newState = {
+        ...state,
+        board: getStartingBoard(action.payload),
+        numberOfTiles: action.payload,
+      };
+      localStorage.setItem("state", JSON.stringify(newState));
+      return newState;
+    },
   },
 });
 
-export const { flip, start } = gameSlice.actions;
+export const { flip, start, setNumberOfTiles } = gameSlice.actions;
 
 export const store = configureStore({
   reducer: {
