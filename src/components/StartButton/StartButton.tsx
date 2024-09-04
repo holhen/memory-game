@@ -7,7 +7,12 @@ const StartButton = () => {
     dispatch(start());
   };
   return (
-    <button onClick={handleStart} className="start" type="button">
+    <button
+      onClick={handleStart}
+      className="start"
+      type="button"
+      data-testid="start-button"
+    >
       Play
     </button>
   );

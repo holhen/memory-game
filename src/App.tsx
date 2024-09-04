@@ -12,7 +12,7 @@ const App: FC = () => {
   const numberOfTiles = useAppSelector((state) => state.game.numberOfTiles);
   const dispatch = useAppDispatch();
   return (
-    <div className="app">
+    <div className="app" data-testid="app">
       {isInProgress && (
         <input
           type="number"
@@ -21,6 +21,7 @@ const App: FC = () => {
           value={numberOfTiles}
           onChange={(e) => dispatch(setNumberOfTiles(parseInt(e.target.value)))}
           placeholder="Number of tiles: 20"
+          data-testid="numeric-input"
         />
       )}
       <Game />

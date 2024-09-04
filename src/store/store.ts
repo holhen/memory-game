@@ -1,8 +1,13 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { getStartingBoard } from "../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 
-interface State {
+export interface State {
   board: number[];
   flipped: number[];
   correct: number[];
@@ -14,7 +19,7 @@ interface State {
 const savedState = localStorage.getItem("state");
 const defaultNumberOfTiles = 20;
 
-const initialState: State = savedState
+export const initialState: State = savedState
   ? JSON.parse(savedState)
   : {
       board: getStartingBoard(defaultNumberOfTiles),
@@ -64,7 +69,7 @@ const flipTile = (state: State, tileIndex: number): State => {
   return newState;
 };
 
-const gameSlice = createSlice({
+export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
@@ -93,14 +98,20 @@ const gameSlice = createSlice({
 });
 
 export const { flip, start, setNumberOfTiles } = gameSlice.actions;
+export const gameReducer = gameSlice.reducer;
 
-export const store = configureStore({
-  reducer: {
-    game: gameSlice.reducer,
-  },
+const rootReducer = combineReducers({
+  game: gameReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const setupStore = (preloadedState?: Partial<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore["dispatch"];
 export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();

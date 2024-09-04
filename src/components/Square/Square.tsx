@@ -26,6 +26,7 @@ const Square: FC<SquareProps> = ({ value, index }) => {
     <div
       className={`square ${isFlipped ? "flipped" : isCorrect ? "correct" : ""}`}
       onClick={handleFlip}
+      data-testid="square"
     >
       {value}
     </div>

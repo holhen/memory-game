@@ -18,6 +18,7 @@ const Game = () => {
   return (
     <div
       className={`game ${isInProgress ? "in-progress" : isWon ? "won" : ""}`}
+      data-testid="game"
     >
       {content}
     </div>
