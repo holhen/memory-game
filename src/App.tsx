@@ -1,12 +1,13 @@
 import { FC } from "react";
 import Game from "./components/Game/Game";
-import { GameContextProvider } from "./contexts/GameContext";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const App: FC = () => {
   return (
-    <GameContextProvider>
+    <Provider store={store}>
       <Game />
-    </GameContextProvider>
+    </Provider>
   );
 };
 

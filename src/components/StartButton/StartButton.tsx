@@ -1,15 +1,10 @@
-import { useContext } from "react";
-import { GameContext } from "../../contexts/GameContext";
-import { Actions } from "../../store/store";
+import { start, useAppDispatch } from "../../store/store";
 import "./StartButton.scss";
 
 const StartButton = () => {
-  const context = useContext(GameContext);
-  const { dispatch } = context;
+  const dispatch = useAppDispatch();
   const handleStart = () => {
-    dispatch({
-      type: Actions.START,
-    });
+    dispatch(start());
   };
   return (
     <button onClick={handleStart} className="start" type="button">

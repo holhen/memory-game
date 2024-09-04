@@ -1,14 +1,13 @@
-import { useContext } from "react";
-import { GameContext } from "../../contexts/GameContext";
 import Board from "../Board/Board";
-import "./Game.scss";
 import WinningMessage from "../WinningMessage/WinningMessage";
 import StartGame from "../StartGame/StartGame";
+import "./Game.scss";
+import { useAppSelector } from "../../store/store";
 
 const Game = () => {
-  const context = useContext(GameContext);
-  const { state } = context;
-  const { isInProgress, isWon } = state;
+  const isInProgress = useAppSelector((state) => state.game.isInProgress);
+  const isWon = useAppSelector((state) => state.game.isWon);
+
   const content = isInProgress ? (
     <Board />
   ) : isWon ? (
